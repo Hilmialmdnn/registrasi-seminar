@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrasi Seminar IT PNM Summit</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script defer src="script.js"></script>
+    <style>
+        .error { color: red; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">IT PNM Summit</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="registrasi.html">Registrasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Tentang.html">Tentang</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <h2 class="text-center">Form Registrasi Seminar</h2>
+        <div class="row">
+
+            <aside class="col-md-4">
+                <div class="card p-3">
+                    <h5>Informasi Seminar</h5>
+                    <p>Seminar IT PNM Summit akan diadakan secara offline pada tanggal 15 April 2025.</p>
+                    <p>Lokasi: Politeknik Negeri Madiun</p>
+                    <p>Waktu: 09.00 - 16.00 WIB</p>
+                </div>
+            </aside>
+    
+            <div class="col-md-8">
+                <form id="registrationForm">
+                    <div class="mb-3">
+                        <label for="fullName" class="form-label">Nama Lengkap</label>
+                        <input type="text" id="fullName" class="form-control" required>
+                        <div class="error" id="nameError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" class="form-control" required>
+                        <div class="error" id="emailError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-control" required>
+                        <div class="error" id="passwordError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Konfirmasi Password</label>
+                        <input type="password" id="confirmPassword" class="form-control" required>
+                        <div class="error" id="confirmPasswordError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="birthdate" class="form-label">Tanggal Lahir</label>
+                        <input type="date" id="birthdate" class="form-control" required>
+                        <div class="error" id="birthdateError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Nomor HP</label>
+                        <input type="tel" id="phone" class="form-control" required>
+                        <div class="error" id="phoneError"></div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Daftar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+
+    <footer class=" text-dark text-center py-3 mt-4">
+        <p>&copy; 2025 IT PNM Summit | Politeknik Negeri Madiun</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("registrationForm");
+            const submitBtn = document.getElementById("submitBtn");
+            const fullName = document.getElementById("fullName");
+            const email = document.getElementById("email");
+            const password = document.getElementById("password");
+            const confirmPassword = document.getElementById("confirmPassword");
+            const birthdate = document.getElementById("birthdate");
+            const phone = document.getElementById("phone");
+
+            const validateForm = () => {
+                let valid = true;
+                document.querySelectorAll(".error").forEach(e => e.textContent = "");
+                
+                if (fullName.value.length < 3) {
+                    document.getElementById("nameError").textContent = "Nama minimal 3 karakter";
+                    valid = false;
+                }
+                if (!email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                    document.getElementById("emailError").textContent = "Format email tidak valid";
+                    valid = false;
+                }
+                if (password.value.length < 8) {
+                    document.getElementById("passwordError").textContent = "Password minimal 8 karakter";
+                    valid = false;
+                }
+                if (confirmPassword.value !== password.value) {
+                    document.getElementById("confirmPasswordError").textContent = "Konfirmasi password harus sama";
+                    valid = false;
+                }
+                const birthYear = new Date(birthdate.value).getFullYear();
+                if (birthYear > 2006) {
+                    document.getElementById("birthdateError").textContent = "Tanggal lahir harus sebelum 2006";
+                    valid = false;
+                }
+                if (!phone.value.match(/^08[0-9]{8,11}$/)) {
+                    document.getElementById("phoneError").textContent = "Nomor HP tidak valid (format Indonesia)";
+                    valid = false;
+                }
+                submitBtn.disabled = !valid;
+            };
+            
+            form.addEventListener("input", validateForm);
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+                alert("Registrasi berhasil!");
+                form.reset();
+                submitBtn.disabled = true;
+            });
+        });
+    </script>
+</body>
+</html>
